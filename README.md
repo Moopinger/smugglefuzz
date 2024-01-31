@@ -38,7 +38,9 @@ A crucial guideline for wordlists is that successfully smuggled headers should i
     CL: 13
     TE: chunked
 
-Each request incorporates a "Body"/DATA-Frame with the value "68". If
+Each request incorporates a "Body"/DATA-Frame with the value "68". If a TE header is smuggled, it is interpreted as a chunked content length of 104 (0x68) by the server if successfully smuggled, leading to a timeout. Similarly, smuggling a CL header with a content length of 13 also results in a timeout due to unfulfilled length.
+
+The confirmatory request resubmits the same query that led to the timeout, but with Data: "3\r\nABC\r\n0\r\n\r\n". This satisfies both a chunked TE and a CL of 13, eliciting a successful response and potentially indicating a smuggling vulnerability.
 
 ![Search banner](/blog/assets/smugfuzz-banner.png)
 
