@@ -1,3 +1,9 @@
+
+[![made-with-Go](https://img.shields.io/badge/made%20with-Go-brightgreen.svg)](http://golang.org)
+[![go-report](https://goreportcard.com/badge/github.com/moopinger/smugglefuzz)](https://goreportcard.com/report/github.com/moopinger/smugglefuzz)
+[![license](https://img.shields.io/badge/license-MIT-_red.svg)](https://opensource.org/licenses/MIT)
+
+
 # SmuggleFuzz
 HTTP/2 based downgrade and smuggle scanner
 
