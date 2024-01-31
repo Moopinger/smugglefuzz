@@ -42,15 +42,12 @@ Each request incorporates a "Body"/DATA-Frame with the value "68". If
 ![Search banner](/blog/assets/smugfuzz-banner.png)
 
 # Install
-
+```
 git clone https://github.com/moopinger/smugglefuzz.git
-
 cd smugglefuzz
-
 go build .
-
 ./smugglefuzz
-
+```
 
 # Usage
 
