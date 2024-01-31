@@ -52,7 +52,7 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 
 	}
 
-	//if a user provides custom pseudo headers we want to withold our own to prevent collisions
+	//if a user provides custom pseudo headers we want to withhold our own to prevent collisions
 	var withholdScheme bool = false
 	var withholdAuthority bool = false
 	var withholdPath bool = false
