@@ -43,9 +43,13 @@ Each request incorporates a "Body"/DATA-Frame with the value "68". If
 # Install
 
 git clone https://github.com/moopinger/smugglefuzz.git
+
 cd smugglefuzz
+
 go build .
+
 ./smugglefuzz
+
 
 # Usage
 
