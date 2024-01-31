@@ -53,7 +53,7 @@ There are three commands for SmuggleFuzz:
 
 * scan
 
-{% highlight none %}
+```
 
 Usage:
   smugglefuzz scan [flags]
@@ -83,13 +83,13 @@ Flags:
   -u, --url string            The target URL to be scanned.
   -w, --wordlist string       Provide a custom list of gadgets to use. If not provided, the default list will be used.
 
-{% endhighlight %}
+```
 
 
 
 * request
 
-{% highlight none %}
+```
 
   smugglefuzz request [flags]
 
@@ -107,7 +107,7 @@ Flags:
   -x, --method string   The method to use. (default "POST")
   -u, --url string      The target URL to submit the request to.
 
-  {% endhighlight %}
+```
 
 * output
 
