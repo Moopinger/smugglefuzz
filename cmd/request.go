@@ -22,7 +22,6 @@ var requestCmd = &cobra.Command{
 	smugglefuzz request -u https://www.example.com/ -a "content-length\t; 13" -H "Cookie: date=...; session=...;" `,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Print(lib.Banner)
 
 		if cmd.Flag("url").Value.String() == "" {
 			fmt.Println("You must provide a target URL (-u)")
@@ -35,6 +34,8 @@ var requestCmd = &cobra.Command{
 			cmd.Help()
 			return
 		}
+
+		fmt.Print(lib.Banner)
 
 		var scanJob lib.ScanJob
 
