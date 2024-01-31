@@ -1,6 +1,6 @@
 # smugglefuzz
 HTTP/2 based downgrade and smuggle scanner
-For more info see https://github.com/Moopinger/blog
+For more info see [https://moopinger.github.io/blog/](https://moopinger.github.io/blog/)
 
 
 # Wordlist
