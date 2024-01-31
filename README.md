@@ -49,7 +49,7 @@ go install github.com/moopinger/smugglefuzz@latest
 ```
 
 
-Compile yourself:
+Or compile yourself:
 
 
 ```
