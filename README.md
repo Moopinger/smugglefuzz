@@ -42,8 +42,6 @@ Each request incorporates a "Body"/DATA-Frame with the value "68". If a TE heade
 
 The confirmatory request resubmits the same query that led to the timeout, but with Data: "3\r\nABC\r\n0\r\n\r\n". This satisfies both a chunked TE and a CL of 13, eliciting a successful response and potentially indicating a smuggling vulnerability.
 
-![Search banner](/blog/assets/smugfuzz-banner.png)
-
 # Install
 ```
 git clone https://github.com/moopinger/smugglefuzz.git
