@@ -116,7 +116,7 @@ Flags:
 
 * output
 
-This will just output the default smuggle gadgets. Currently only for H2.CL and H2.TE 
+This will just output the default smuggle gadgets. Currently the build in comfirmation only for H2.CL and H2.TE. But it is still possible to detect H2.0 attacks via timeouts (–filter TIMEOUT) or OAST on a domain of yours.
 
 # Thanks (Without these people and projects this would not exist)
 
