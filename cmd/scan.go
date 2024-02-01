@@ -21,7 +21,7 @@ var scanCmd = &cobra.Command{
 	Example: `	smugglefuzz scan -u https://example.com/ --confirm 
 	smugglefuzz scan -u https://example.com/ --filter 200 --confirm
 	smugglefuzz scan -u https://example.com/ -w wordlist.txt -t 10 --confirm
-	smugglefuzz scan -dc -u https://example.com/ -w wordlist.txt -x PUT --confirm
+	smugglefuzz scan --dc -u https://example.com/ -w wordlist.txt -x PUT --confirm
 	
 	//Multiple targets? just use -f instead of -u and provide a file with the targets in it:
 	
