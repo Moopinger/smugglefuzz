@@ -16,16 +16,11 @@ For more info see [https://moopinger.github.io/blog/smugglefuzz/fuzzing/smugglin
 
 # Install
 
-```
-go install github.com/moopinger/smugglefuzz@latest
-```
 
-
-Or compile yourself:
-
+For this one you will have to compile yourself:
 
 ```
-git clone https://github.com/moopinger/smugglefuzz.git
+git clone https://github.com/moopinger/smugglefuzz.git -b experimental-h2c
 cd smugglefuzz
 go build .
 ./smugglefuzz
