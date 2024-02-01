@@ -57,7 +57,7 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	var withholdAuthority bool = false
 	var withholdPath bool = false
 	var withholdMethod bool = false
-	var witholdUserAgent bool = false
+	var withholdUserAgent bool = false
 
 	if len(customHeaderName) >= 7 && string(customHeaderName[:7]) == ":scheme" {
 		withholdScheme = true
@@ -68,7 +68,7 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	} else if len(customHeaderName) >= 7 && string(customHeaderName[:7]) == ":method" {
 		withholdMethod = true
 	} else if len(customHeaderName) >= 10 && string(customHeaderName[:10]) == "user-agent" {
-		witholdUserAgent = true
+		withholdUserAgent = true
 	}
 
 	//fmt.Printf("ccccccccHeader Name: %s \nHeader Value: %s\n\n", customHeaderName, custonHeaderValue)
@@ -134,7 +134,7 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	}
 
 	//user agent
-	if witholdUserAgent == false {
+	if withholdUserAgent == false {
 
 		userAgentHeader := []byte{
 			0x40,                    // Literal Header Field with Incremental Indexing
