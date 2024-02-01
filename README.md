@@ -4,6 +4,10 @@
 [![license](https://img.shields.io/badge/license-MIT-_red.svg)](https://opensource.org/licenses/MIT)
 
 
+# Experimental branch - h2c
+
+It is pretty tricky to find a server that supports HTTP2 but not TLS, however if you find yourself in such a position this branch might help you out.
+
 # SmuggleFuzz
 HTTP/2 based downgrade and smuggle scanner
 
