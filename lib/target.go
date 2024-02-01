@@ -12,12 +12,11 @@ import (
 	"os"
 	"strconv"
 	"strings"
-	"time"
 )
 
 type Target struct {
-	URL    neturl.URL
-	Status string
+	URL        neturl.URL
+	H2CEnabled bool
 }
 
 func ReadTargetFile(fileName string) ([]string, error) {
@@ -34,6 +33,8 @@ func ReadTargetFile(fileName string) ([]string, error) {
 
 func NewTarget(url string) (*Target, error) {
 
+	h2cenabled := false
+
 	if url == "" {
 		return nil, fmt.Errorf("URL cannot be empty")
 	}
@@ -44,11 +45,17 @@ func NewTarget(url string) (*Target, error) {
 	u, err := neturl.Parse(url)
 
 	if u.Scheme != "https" {
-		return nil, fmt.Errorf("h2c not implemented")
+		h2cenabled = true
+
 	}
 
 	if u.Port() == "" {
-		u.Host = u.Host + ":443"
+
+		if h2cenabled {
+			u.Host = u.Host + ":80"
+		} else {
+			u.Host = u.Host + ":443"
+		}
 	}
 
 	if u.Path == "" {
@@ -59,22 +66,25 @@ func NewTarget(url string) (*Target, error) {
 		return nil, err
 	}
 	return &Target{
-		URL:    *u,
-		Status: "pending",
+		URL:        *u,
+		H2CEnabled: h2cenabled,
 	}, nil
 }
 
-func (t *Target) GetConnection() (*tls.Conn, error) {
-	var conn *tls.Conn
+func (t *Target) GetConnection() (net.Conn, error) {
 
 	portNumber, _ := strconv.Atoi(t.URL.Port())
 	addr := fmt.Sprintf("%s:%d", t.URL.Hostname(), portNumber)
 
-	dialer := &net.Dialer{
-		Timeout: time.Second * 5,
+	if t.H2CEnabled {
+		conn, err := net.Dial("tcp", addr)
+		if err != nil {
+			return conn, err
+		}
+		return conn, nil
 	}
 
-	conn, err := tls.DialWithDialer(dialer, "tcp", addr, &tls.Config{
+	conn, err := tls.Dial("tcp", addr, &tls.Config{
 		InsecureSkipVerify: true,
 		ServerName:         t.URL.Hostname(),
 		NextProtos:         []string{"h2"},

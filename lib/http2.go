@@ -5,9 +5,9 @@
 package lib
 
 import (
-	"crypto/tls"
 	"fmt"
 	"io"
+	"net"
 	"strings"
 
 	"golang.org/x/net/http2"
@@ -34,7 +34,7 @@ func generateSettingsFrame() []byte {
 
 }
 
-func GenerateRequest(hostname string, path string, customHeaderName []byte, custonHeaderValue []byte, streamId byte, requestMethod string, confirmationRequest bool, additionalHeader string) ([]byte, error) {
+func GenerateRequest(hostname string, path string, customHeaderName []byte, custonHeaderValue []byte, streamId byte, requestMethod string, confirmationRequest bool, additionalHeader string, h2c bool) ([]byte, error) {
 
 	//convert customHeaderName to string
 	additionalHeaderName := []byte{}
@@ -85,7 +85,13 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 
 	//if withholdscheme is false we add the scheme with 0x87
 	if withholdScheme == false {
-		payload = append(payload, 0x87)
+
+		if h2c == true {
+			payload = append(payload, 0x86)
+		} else {
+
+			payload = append(payload, 0x87)
+		}
 	}
 
 	//if withholdAuthority is false we add the authority with 0x41 and the hostname length followed by the hostname
@@ -306,7 +312,7 @@ func HandleConnection(scanJob *ScanJob, streamChan *chan string) {
 
 }
 
-func SendCustomFrame(frame []byte, conn *tls.Conn) error {
+func SendCustomFrame(frame []byte, conn net.Conn) error {
 
 	if conn == nil {
 		return fmt.Errorf("Connection is nil")
@@ -319,7 +325,7 @@ func SendCustomFrame(frame []byte, conn *tls.Conn) error {
 	return nil
 }
 
-func sendMagicReq(conn *tls.Conn) error {
+func sendMagicReq(conn net.Conn) error {
 
 	if conn == nil {
 		return fmt.Errorf("Connection is nil")
@@ -332,7 +338,7 @@ func sendMagicReq(conn *tls.Conn) error {
 	return nil
 }
 
-func EstablishH2Connection(conn *tls.Conn) error {
+func EstablishH2Connection(conn net.Conn) error {
 
 	//fmt.Print("[+]MagicReq Sent\n")
 

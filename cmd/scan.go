@@ -174,7 +174,7 @@ var scanCmd = &cobra.Command{
 						}
 
 						//I REALLY need to make a builder for these
-						getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, false, additionalHeader)
+						getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, false, additionalHeader, scanJob.Target.H2CEnabled)
 						if err != nil {
 							fmt.Println("Error generating request:", err)
 
@@ -190,6 +190,8 @@ var scanCmd = &cobra.Command{
 						select {
 						case responseInfo = <-streamChan:
 
+							//print the connection source port number
+							//fmt.Println("Connection source port:", scanJob.Conn.LocalAddr().(*net.TCPAddr).Port)
 							fmt.Print(lib.OutputParser(payload.Name, responseInfo, colorDisabled, stringFilter))
 
 							if responseInfo == "GOAWAY" {
@@ -236,7 +238,7 @@ var scanCmd = &cobra.Command{
 
 								//send a confirmation frame
 								fmt.Print(lib.OutputParser("", "*Sending a confirmation request... ", colorDisabled, stringFilter))
-								confirmationRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), scanJob.Target.URL.Path, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, true, additionalHeader)
+								confirmationRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), scanJob.Target.URL.Path, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, true, additionalHeader, scanJob.Target.H2CEnabled)
 
 								if err != nil {
 									fmt.Println("Error generating request:", err)

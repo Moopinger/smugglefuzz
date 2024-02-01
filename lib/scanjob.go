@@ -5,17 +5,17 @@
 package lib
 
 import (
-	"crypto/tls"
+	"net"
 )
 
 type ScanJob struct {
 	Target   *Target
-	Conn     *tls.Conn
+	Conn     net.Conn
 	Payloads []Payload
 	StreamId int
 }
 
-func NewScanJob(target *Target, conn *tls.Conn, payloads []Payload) *ScanJob {
+func NewScanJob(target *Target, conn net.Conn, payloads []Payload) *ScanJob {
 	return &ScanJob{
 		Target:   target,
 		Conn:     conn,
@@ -24,6 +24,6 @@ func NewScanJob(target *Target, conn *tls.Conn, payloads []Payload) *ScanJob {
 	}
 }
 
-func (s *ScanJob) SetConn(conn *tls.Conn) {
+func (s *ScanJob) SetConn(conn net.Conn) {
 	s.Conn = conn
 }

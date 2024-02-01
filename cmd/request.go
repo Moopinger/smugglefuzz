@@ -97,7 +97,7 @@ var requestCmd = &cobra.Command{
 			targetUrl += "?" + queryString
 		}
 
-		getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, attackHeaderPayload.HeaderName, attackHeaderPayload.HeaderValue, byte(scanJob.StreamId), method, false, additionalHeader)
+		getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, attackHeaderPayload.HeaderName, attackHeaderPayload.HeaderValue, byte(scanJob.StreamId), method, false, additionalHeader, scanJob.Target.H2CEnabled)
 		if err != nil {
 			fmt.Println("Error generating request:", err)
 
