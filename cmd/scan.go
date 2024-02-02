@@ -103,6 +103,11 @@ var scanCmd = &cobra.Command{
 
 				headerValues, err = lib.ReadPayloadsFile(gadgetList)
 
+				if err != nil {
+					fmt.Println("Error reading file:", err)
+					return
+				}
+
 				//remove trailing newline
 				if headerValues[len(headerValues)-1] == "" {
 					headerValues = headerValues[:len(headerValues)-1]
@@ -124,6 +129,11 @@ var scanCmd = &cobra.Command{
 				return
 			}
 
+			//for limit threads for smaller wordlists
+			if routineCount > len(payloads) {
+				routineCount = len(payloads)
+			}
+
 			payloadChunks := lib.ChunkPayloads(payloads, routineCount)
 
 			for _, payloadChunk := range payloadChunks {
@@ -131,7 +141,10 @@ var scanCmd = &cobra.Command{
 				conn, err := target.GetConnection()
 				if err != nil {
 					fmt.Println("Error connecting to target:", err)
-					continue
+
+					//prevent other threads from starting if the connection fails
+					break
+
 				}
 				//defer conn.Close()
 				//fmt.Println("[+]Thread Ready. HTTP2 Connected to target:", target.URL.Hostname())
