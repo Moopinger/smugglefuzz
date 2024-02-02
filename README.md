@@ -28,10 +28,6 @@ go build .
 ```
 
 
-# H2C - 
-
-Need h2c support? Check out the "experimental-h2c" branch of SmuggleFuzz.
-
 # Usage
 
 There are three commands for SmuggleFuzz:
@@ -105,7 +101,9 @@ SmuggleFuzz allows users complete control over requests through custom wordlists
 
 The tool includes a ready-to-use list of 125 smuggling gadgets, though there's always scope for expansion. These gadgets can be displayed using the 'output' command, providing insights into query structuring. Users can run scans with custom wordlists using the 'w' flag. The list supports URL encoding (%00) for non-printable byte values, such as carriage return and line feed represented as '%0d%0a' or '\r\n'. While the provided list is comprehensive, crafting your own gadgets can significantly enhance success rates.
 
+# H2C - 
 
+Need h2c support? Check out the "experimental-h2c" branch of SmuggleFuzz.
 
 ### Pseudo headers
 
