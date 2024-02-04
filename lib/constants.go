@@ -8,7 +8,7 @@ const (
 |   __|_____ _ _ ___ ___| |___|   __|_ _ ___ ___ 
 |__   |     | | | . | . | | -_|   __| | |- _|- _|
 |_____|_|_|_|___|_  |_  |_|___|__|  |___|___|___|
-                |___|___|  Moopinger v0.1.4
+                |___|___|  Moopinger v0.1.5
 
 `
 
@@ -16,6 +16,12 @@ const (
 	DefaultGadgetList = `validheader; smugglefuzz
 CONTENT-LENGTH; 13
 TRANSFER-ENCODING; CHUNKED
+content-length; 13
+transfer-encoding; chunked
+transfer_encoding; chunked
+content_length; 13
+contentlength; 13
+transferencoding; chunked
 Content-Length; 13
 content-length; "13"
 content-length; '13'
@@ -55,6 +61,12 @@ transfer-encoding: chunked; xxx: yyy
 transfer-encoding: chunked\n; xxx: yyy
 transfer-encoding: chunked\n; xxx: yyy
 transfer-encoding: chunked; \nxxx: yyy
+XXXX; YYY\r\ncontent-length: 13
+XXXX; YYY\r\ntransfer-encoding: chunked
+XXXX; YYY\ntransfer-encoding: chunked
+XXXX; YYYY\nYYYY\ncontent-length: 13
+transfer; encoding: chunked
+XXXX; transfer-encoding: chunked
 content-length: 13; \r\nxxx: 13
 content-length: 13; \nxxxX: 13
 content-length:; 13
