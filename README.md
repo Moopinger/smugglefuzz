@@ -8,7 +8,7 @@
 
 It is pretty tricky to find a server that supports HTTP2 but not TLS, however if you find yourself in such a position this branch might help you out.
 
-Because this is experimental, expect some false possitives. 
+Because this is experimental, expect some false positives. 
 
 # SmuggleFuzz
 HTTP/2 based downgrade and smuggle scanner
