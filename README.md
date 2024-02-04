@@ -6,7 +6,7 @@
 
 # SmuggleFuzz
 
-SmuggleFuzz, an advanced and rapid HTTP downgrade smuggling scanner. Empowering users with customizable gadget lists, it offers deeper insights into the reasons behind failed smuggling attacks. I am confident that numerous HTTP downgrade-based smuggling vulnerabilities remain undiscovered. Unfortunately, many individuals cease their exploration after a cursory scan. By utilizing SmuggleFuzz, you can uncover smuggling vulnerabilities that others may overlook, ensuring you find the ones that other miss. 
+SmuggleFuzz, an advanced and rapid HTTP downgrade smuggling scanner. Empowering users with customizable gadget lists, it offers deeper insights into the reasons behind failed smuggling attacks. I am confident that numerous HTTP downgrade-based smuggling vulnerabilities remain undiscovered. Unfortunately, many individuals cease their exploration after a cursory scan. By using SmuggleFuzz, you can uncover smuggling vulnerabilities that others may overlook, ensuring you find the ones  that they miss.
 
 For more info see [https://moopinger.github.io/blog/smugglefuzz/fuzzing/smuggling/2024/01/31/SmuggleFuzz.html](https://moopinger.github.io/blog/smugglefuzz/fuzzing/smuggling/2024/01/31/SmuggleFuzz.html)
 
