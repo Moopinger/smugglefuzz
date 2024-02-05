@@ -1,6 +1,5 @@
 module github.com/moopinger/smugglefuzz
 
-
 go 1.21.6
 
 require (

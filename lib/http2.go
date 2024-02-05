@@ -178,7 +178,7 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	if confirmationRequest == true {
 		dataFrame = generateDataFrame(streamId, "3\r\nABC\r\n0\r\n\r\n")
 	} else {
-		dataFrame = generateDataFrame(streamId, "99")
+		dataFrame = generateDataFrame(streamId, "99\r\n")
 	}
 
 	header = append(header, dataFrame...)
