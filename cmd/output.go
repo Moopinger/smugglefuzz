@@ -13,7 +13,7 @@ import (
 // outputCmd represents the output command
 var outputCmd = &cobra.Command{
 	Use:   "output",
-	Short: "Output the default smuggle gadtets",
+	Short: "Output the default smuggle gadgets",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("%v\n", lib.DefaultGadgetList)
