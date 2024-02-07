@@ -95,7 +95,7 @@ var scanCmd = &cobra.Command{
 				return
 			}
 
-			fmt.Println("[+]Processing requests...")
+			fmt.Printf("[+]Processing requests...%80s\n", "\t\t")
 
 			var headerValues []string
 
