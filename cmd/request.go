@@ -6,6 +6,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/moopinger/smugglefuzz/lib"
@@ -49,6 +50,10 @@ var requestCmd = &cobra.Command{
 		colorDisabled, _ := cmd.Flags().GetBool("dc")
 		additionalHeader, _ := cmd.Flags().GetString("header")
 		userDataFrame, _ := cmd.Flags().GetString("data")
+
+		userDataFrame = strings.ReplaceAll(userDataFrame, "\\r", "\r")
+		userDataFrame = strings.ReplaceAll(userDataFrame, "\\n", "\n")
+		userDataFrame = strings.ReplaceAll(userDataFrame, "\\t", "\t")
 
 		if method == "" {
 			method = "POST"

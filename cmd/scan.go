@@ -56,6 +56,10 @@ var scanCmd = &cobra.Command{
 		additionalHeader, _ := cmd.Flags().GetString("header")
 		userDataFrame, _ := cmd.Flags().GetString("data")
 
+		userDataFrame = strings.ReplaceAll(userDataFrame, "\\r", "\r")
+		userDataFrame = strings.ReplaceAll(userDataFrame, "\\n", "\n")
+		userDataFrame = strings.ReplaceAll(userDataFrame, "\\t", "\t")
+
 		if method == "" {
 			method = "POST"
 		}
