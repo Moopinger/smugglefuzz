@@ -44,7 +44,7 @@ Examples:
 	smugglefuzz scan -u https://example.com/ --confirm
 	smugglefuzz scan -u https://example.com/ --filter 200 --confirm
 	smugglefuzz scan -u https://example.com/ -w wordlist.txt -t 10 --confirm
-	smugglefuzz scan -dc -u https://example.com/ -w wordlist.txt -x PUT --confirm
+	smugglefuzz scan --dc -u https://example.com/ -w wordlist.txt -x PUT --confirm
 
 Multiple Targets:
 	smugglefuzz scan -f multiple_targets.txt --confirm -t 10
