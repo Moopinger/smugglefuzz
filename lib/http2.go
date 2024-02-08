@@ -34,7 +34,7 @@ func generateSettingsFrame() []byte {
 
 }
 
-func GenerateRequest(hostname string, path string, customHeaderName []byte, custonHeaderValue []byte, streamId byte, requestMethod string, confirmationRequest bool, additionalHeader string) ([]byte, error) {
+func GenerateRequest(hostname string, path string, customHeaderName []byte, custonHeaderValue []byte, streamId byte, requestMethod string, additionalHeader string, customDataFrame string) ([]byte, error) {
 
 	//convert customHeaderName to string
 	additionalHeaderName := []byte{}
@@ -175,11 +175,13 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	//If its a confirmation request we modify the body to 3\r\nABC\r\n0\r\n\r\n
 	var dataFrame []byte
 
-	if confirmationRequest == true {
-		dataFrame = generateDataFrame(streamId, "3\r\nABC\r\n0\r\n\r\n")
-	} else {
-		dataFrame = generateDataFrame(streamId, "99\r\n")
-	}
+	// if confirmationRequest == true {
+	// 	dataFrame = generateDataFrame(streamId, "3\r\nABC\r\n0\r\n\r\n")
+	// } else {
+	// 	dataFrame = generateDataFrame(streamId, "99\r\n")
+	// }
+
+	dataFrame = generateDataFrame(streamId, customDataFrame)
 
 	header = append(header, dataFrame...)
 	return header, nil

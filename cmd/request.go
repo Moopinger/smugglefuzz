@@ -48,6 +48,7 @@ var requestCmd = &cobra.Command{
 		detectionTimout, _ := cmd.Flags().GetInt("interval")
 		colorDisabled, _ := cmd.Flags().GetBool("dc")
 		additionalHeader, _ := cmd.Flags().GetString("header")
+		userDataFrame, _ := cmd.Flags().GetString("data")
 
 		if method == "" {
 			method = "POST"
@@ -97,7 +98,7 @@ var requestCmd = &cobra.Command{
 			targetUrl += "?" + queryString
 		}
 
-		getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, attackHeaderPayload.HeaderName, attackHeaderPayload.HeaderValue, byte(scanJob.StreamId), method, false, additionalHeader)
+		getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, attackHeaderPayload.HeaderName, attackHeaderPayload.HeaderValue, byte(scanJob.StreamId), method, additionalHeader, userDataFrame)
 		if err != nil {
 			fmt.Println("Error generating request:", err)
 
@@ -132,6 +133,7 @@ func init() {
 	rootCmd.AddCommand(requestCmd)
 
 	requestCmd.Flags().StringP("url", "u", "", "The target URL to submit the request to.")
+	requestCmd.Flags().StringP("data", "d", "99\r\n", "HTTP/2 Data frame content to send.")
 	requestCmd.Flags().BoolP("dc", "", false, "Disable colour in the output.")
 	requestCmd.Flags().StringP("method", "x", "POST", "The method to use.")
 	requestCmd.Flags().StringP("header", "H", "", "Insert custom header. eg \"Cookie: values\"")

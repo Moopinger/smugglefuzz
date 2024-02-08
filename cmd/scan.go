@@ -54,6 +54,7 @@ var scanCmd = &cobra.Command{
 		colorDisabled, _ := cmd.Flags().GetBool("dc")
 		stringFilter, _ := cmd.Flags().GetString("filter")
 		additionalHeader, _ := cmd.Flags().GetString("header")
+		userDataFrame, _ := cmd.Flags().GetString("data")
 
 		if method == "" {
 			method = "POST"
@@ -122,7 +123,7 @@ var scanCmd = &cobra.Command{
 				return
 			}
 
-			payloads, err := lib.BulkImportPayloads(headerValues)
+			payloads, err := lib.BulkImportPayloads(headerValues, target.URL.Hostname())
 
 			if err != nil {
 				fmt.Println("Error importing payloads:", err)
@@ -187,7 +188,7 @@ var scanCmd = &cobra.Command{
 						}
 
 						//I REALLY need to make a builder for these
-						getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, false, additionalHeader)
+						getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, additionalHeader, userDataFrame)
 						if err != nil {
 							fmt.Println("Error generating request:", err)
 
@@ -249,7 +250,7 @@ var scanCmd = &cobra.Command{
 
 								//send a confirmation frame
 								fmt.Print(lib.OutputParser("", "*Sending a confirmation request... ", colorDisabled, stringFilter))
-								confirmationRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), scanJob.Target.URL.Path, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, true, additionalHeader)
+								confirmationRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), scanJob.Target.URL.Path, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, additionalHeader, "3\r\nABC\r\n0\r\n\r\n")
 
 								if err != nil {
 									fmt.Println("Error generating request:", err)
@@ -325,4 +326,5 @@ func init() {
 	scanCmd.Flags().IntP("threads", "t", 4, "The number of threads to run. Smugglefuzz can go fast, so set the desired number. However, too many may upset any WAFs.")
 	scanCmd.Flags().IntP("interval", "i", 5, "The timeout interval in seconds.")
 	scanCmd.Flags().StringP("filter", "", "", "Filter responses by string or frame type, etc. For example: 405, 200, 502, TIMEOUT, RST, GOAWAY, etc.")
+	scanCmd.Flags().StringP("data", "d", "99\r\n", "HTTP/2 Data frame to send. eg: 99\\r\\n")
 }

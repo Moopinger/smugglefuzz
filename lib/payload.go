@@ -57,7 +57,7 @@ func ImportSinglePayloads(payloadString string) (Payload, error) {
 	return NewPayload(parts[0], parts[1], payloadString), nil
 }
 
-func BulkImportPayloads(payloadsFromFile []string) ([]Payload, error) {
+func BulkImportPayloads(payloadsFromFile []string, hostname string) ([]Payload, error) {
 
 	payloads := []Payload{}
 
@@ -65,6 +65,9 @@ func BulkImportPayloads(payloadsFromFile []string) ([]Payload, error) {
 		if line == "" {
 			continue
 		}
+
+		//replace [HOSTNAME] with the actual hostname
+		line = strings.ReplaceAll(line, "[HOSTNAME]", hostname)
 
 		parts := strings.Split(line, "; ")
 
@@ -88,6 +91,10 @@ func NewPayload(headerName string, headerValue string, name string) Payload {
 	headerName = strings.ReplaceAll(headerName, "\\r", "\r")
 	headerName = strings.ReplaceAll(headerName, "\\n", "\n")
 	headerName = strings.ReplaceAll(headerName, "\\t", "\t")
+
+	headerValue = strings.ReplaceAll(headerValue, "\\r", "\r")
+	headerValue = strings.ReplaceAll(headerValue, "\\n", "\n")
+	headerValue = strings.ReplaceAll(headerValue, "\\t", "\t")
 
 	// Replace URL encoded values (%20) in the string, and replace with actual byte (0x20)
 	headerName, _ = url.PathUnescape(headerName)

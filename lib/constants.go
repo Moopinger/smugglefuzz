@@ -8,7 +8,7 @@ const (
 |   __|_____ _ _ ___ ___| |___|   __|_ _ ___ ___ 
 |__   |     | | | . | . | | -_|   __| | |- _|- _|
 |_____|_|_|_|___|_  |_  |_|___|__|  |___|___|___|
-                |___|___|  Moopinger v0.1.7
+                |___|___|  Moopinger v0.1.8
 
 `
 
@@ -149,5 +149,7 @@ transfer-encoding%ff; chunked
 %ffcontent-length; 13
 %fftransfer-encoding; chunked
 content-length; %ff13
-transfer-encoding; chunked%ff`
+transfer-encoding; chunked%ff
+:authority; [HOSTNAME]\r\n\r\n99\r\n
+:scheme; https\r\n\r\n99\r\n`
 )
