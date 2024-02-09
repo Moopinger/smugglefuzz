@@ -150,6 +150,5 @@ transfer-encoding%ff; chunked
 %fftransfer-encoding; chunked
 content-length; %ff13
 transfer-encoding; chunked%ff
-:authority; [HOSTNAME]\r\n\r\n99\r\n
-:scheme; https\r\n\r\n99\r\n`
+:authority; [HOSTNAME]\r\n\r\n99\r\n`
 )
