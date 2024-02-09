@@ -6,7 +6,7 @@
 
 # SmuggleFuzz
 
-SmuggleFuzz, an advanced and rapid HTTP downgrade smuggling scanner. Empowering users with customizable gadget lists, it offers deeper insights into the reasons behind failed smuggling attacks. I am confident that numerous HTTP downgrade-based smuggling vulnerabilities remain undiscovered. Unfortunately, many individuals cease their exploration after a cursory scan. By using SmuggleFuzz, you can uncover smuggling vulnerabilities that others may overlook.
+SmuggleFuzz, a configurable and rapid HTTP downgrade smuggling scanner. Empowering users with customizable gadget lists, it offers deeper insights into the reasons behind failed smuggling attacks. I am confident that numerous HTTP downgrade-based smuggling vulnerabilities remain undiscovered. Unfortunately, many individuals cease their exploration after a cursory scan. By using SmuggleFuzz, you can uncover smuggling vulnerabilities that others may overlook.
 
 For more info see [https://moopinger.github.io/blog/smugglefuzz/fuzzing/smuggling/2024/01/31/SmuggleFuzz.html](https://moopinger.github.io/blog/smugglefuzz/fuzzing/smuggling/2024/01/31/SmuggleFuzz.html)
 
@@ -97,7 +97,7 @@ Flags:
 
 * output
 
-This will just output the default smuggle gadgets. Currently the build in comfirmation only for H2.CL and H2.TE. But it is still possible to detect H2.0 attacks via timeouts (–filter TIMEOUT) or OAST on a domain of yours.
+This will just output the default smuggle gadgets. Currently the built-in confirmation only works for H2.CL and H2.TE. But it is still possible to detect H2.0 attacks via timeouts (–filter TIMEOUT) or OAST on a domain of yours. (See the pseudo headers section below)
 
 
 # Wordlist
