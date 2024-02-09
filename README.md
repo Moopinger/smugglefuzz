@@ -81,7 +81,7 @@ Usage:
 Examples:
 	smugglefuzz request -u https://www.example.com/ -a "content-length\t; 13"
 	smugglefuzz request -u https://www.example.com/ -a "content-length\t; 13" -x PUT
-	smugglefuzz request -u https://www.example.com/ -a "content-length\t; 13" -H "Cookie: date=...; session=...;"
+	smugglefuzz request -u https://www.example.com/ -a "content-length\t; 13" -H "Cookie: date=...; session=...;" --data "223\r\n"
 
 Flags:
   -a, --attack string   Attack Header, separated by (; ) like the wordlist in 'scan' mode.
@@ -121,7 +121,7 @@ Pseudo headers are fully supported and can be customized using the ":name" synta
 
 These headers are particularly useful when testing for H2.0 attack vectors. For example, in testing H2.0 smuggling using OAST-based methods, wordlist entries like the following can be effective:
 
-As of v0.1.8 the [HOSTNAME] can be used as a placeholder. SmuggleFuzz will replace this with the hostname at runtime
+As of v0.1.8 [HOSTNAME] can be used as a placeholder. SmuggleFuzz will replace this with the hostname at runtime.
 
 * `:authority; [HOSTNAME]\r\n\r\nGET / HTTP/1.1\r\nHost: uniqid.oastify.com\r\nX-HEADER:%20`
 
