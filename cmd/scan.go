@@ -212,6 +212,8 @@ var scanCmd = &cobra.Command{
 
 							if responseInfo == "GOAWAY" {
 
+								scanJob.Conn.Close()
+
 								newconn, err := target.GetConnection()
 
 								if err != nil {
@@ -219,10 +221,13 @@ var scanCmd = &cobra.Command{
 									return
 								}
 
-								scanJob.Conn.Close()
-
-								newconn, err = target.GetConnection()
 								err = lib.EstablishH2Connection(newconn)
+
+								if err != nil {
+									fmt.Println("Error establishing HTTP2 connection:", err)
+									return
+								}
+
 								scanJob.SetConn(newconn)
 
 								go lib.HandleConnection(&scanJob, &streamChan)
@@ -245,6 +250,11 @@ var scanCmd = &cobra.Command{
 
 							err = lib.EstablishH2Connection(newconn)
 
+							if err != nil {
+								fmt.Println("Error establishing HTTP2 connection:", err)
+								return
+							}
+
 							scanJob.SetConn(newconn)
 
 							go lib.HandleConnection(&scanJob, &streamChan)
@@ -253,7 +263,7 @@ var scanCmd = &cobra.Command{
 								scanJob.StreamId += 2
 
 								//send a confirmation frame
-								fmt.Print(lib.OutputParser("", "*Sending a confirmation request... ", colorDisabled, stringFilter))
+								fmt.Print(lib.OutputParser(payload.Name, "*Sending a confirmation request... ", colorDisabled, stringFilter))
 								confirmationRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), scanJob.Target.URL.Path, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, additionalHeader, "3\r\nABC\r\n0\r\n\r\n")
 
 								if err != nil {
