@@ -42,15 +42,15 @@ Usage:
 
 Examples:
 	smugglefuzz scan -u https://example.com/ --confirm
-	smugglefuzz scan -u https://example.com/ --filter 200 --confirm
-	smugglefuzz scan -u https://example.com/ -w wordlist.txt -t 10 --confirm
+	smugglefuzz scan -u https://example.com/ --filter TIMEOUT --confirm
+	smugglefuzz scan -u https://example.com/ -w wordlist.txt -t 10 --confirm --filter TIMEOUT
 	smugglefuzz scan --dc -u https://example.com/ -w wordlist.txt -x PUT --confirm
 
 	//Multiple targets? just use -f instead of -u and provide a file with the targets in it:
 
-	smugglefuzz scan -f multiple_targets.txt --confirm -t 10
-	smugglefuzz scan -f multiple_targets.txt -w wordlist.txt --confirm -s ./save-success.txt
-	smugglefuzz scan -f multiple_targets.txt -w wordlist.txt -H "Cookie: date=...; session=...;" --confirm -s ./save-success.txt -x PUT
+	smugglefuzz scan -f multiple_targets.txt --confirm -t 10 
+	smugglefuzz scan -f multiple_targets.txt -w wordlist.txt --confirm -s ./save-success.txt --filter TIMEOUT
+	smugglefuzz scan -f multiple_targets.txt -w wordlist.txt -H "Cookie: date=...; session=...;" -s ./save-success.txt -x PUT --filter TIMEOUT
 
 Flags:
   -c, --confirm               Enable this flag to send a confirmation to the target when a timeout is encountered. Helps confirm if the target is vulnerable.
