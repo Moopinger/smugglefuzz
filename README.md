@@ -18,7 +18,7 @@ go install github.com/moopinger/smugglefuzz@latest
 ```
 
 
-Or compile yourself:
+Or:
 
 
 ```
