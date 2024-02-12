@@ -8,7 +8,7 @@ const (
 |   __|_____ _ _ ___ ___| |___|   __|_ _ ___ ___ 
 |__   |     | | | . | . | | -_|   __| | |- _|- _|
 |_____|_|_|_|___|_  |_  |_|___|__|  |___|___|___|
-                |___|___|  Moopinger v0.1.11
+                |___|___|  Moopinger v0.1.12
 
 `
 
@@ -21,6 +21,7 @@ content-length; %20%20%20%2013
 content-length; 13%20%20%20%20
 transfer-encoding; chunked
 transfer-encoding; ,chunked
+transfer-encoding; gzip, chunked
 transfer-encoding; \tchunked
 transfer-encoding\t; chunked
 \ttransfer-encoding; chunked
@@ -29,6 +30,9 @@ transfer-encoding; chunked\r
 transfer-%00encoding; chunked
 transfer-%01encoding; chunked
 transfer-%13encoding; chunked
+content-length; 13\r
+content-length; 013
+content-length; 13_0
 content-%00length; 13
 content-%01length; 13
 content-%13length; 13
@@ -42,12 +46,14 @@ content-length; "13"
 content-length; '13'
 content-length; +13
 content-length; -13
-Content-Length; "13"
-Content-Length; '13'
-Content-Length; +13
-Content-Length; -13
+content-length; "13"
+content-length; '13'
+content-length; +13
+content-length; (13)
+content-length; [13]
+content-length; -13
 content-length; cow13
-Content-Length; cow13
+content-length; cow13
 Transfer-Encoding; chunked
 Transfer-Encoding; chunked, identity
 Transfer-Encoding; chunked,
@@ -77,16 +83,16 @@ transfer-encoding: chunked; xxx: yyy
 transfer-encoding: chunked\n; xxx: yyy
 transfer-encoding: chunked\n; xxx: yyy
 transfer-encoding: chunked; \nxxx: yyy
-XXXX: YYY\r\ncontent-length; 13
-XXXX: YYY\r\transfer-encoding; chunked
-XXXX: YYY\ncontent-length; 13
-XXXX: YYY\transfer-encoding; chunked
-XXXX; YYY\r\ncontent-length: 13
-XXXX; YYY\r\ntransfer-encoding: chunked
-XXXX; YYY\ntransfer-encoding: chunked
-XXXX; YYYY\nYYYY\ncontent-length: 13
+xxxx: yyy\r\ncontent-length; 13
+xxxx: yyy\r\transfer-encoding; chunked
+xxxx: yyy\ncontent-length; 13
+xxxx: yyy\transfer-encoding; chunked
+xxxx; yyy\r\ncontent-length: 13
+xxxx; yyy\r\ntransfer-encoding: chunked
+xxxx; yyy\ntransfer-encoding: chunked
+xxxx; yyy\nyyy\ncontent-length: 13
 transfer; encoding: chunked
-XXXX; transfer-encoding: chunked
+xxxx; transfer-encoding: chunked
 content-length: 13; \r\nxxx: 13
 content-length: 13; \nxxxX: 13
 content-length:; 13
