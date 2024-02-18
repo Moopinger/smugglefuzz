@@ -154,3 +154,4 @@ The confirmatory request resubmits the same query that led to the timeout, but w
 * [golang.org/x/net/http2](https://golang.org/x/net/http2)
 * [golang.org/x/net/http2/hpack](https://golang.org/x/net/http2/hpack)
 * [github.com/spf13/cobra](https://golang.org/x/net/http2/hpack)
+* [GoReleaser](https://github.com/goreleaser/goreleaser)
