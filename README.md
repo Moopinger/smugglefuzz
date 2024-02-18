@@ -13,12 +13,16 @@ For more info see [https://moopinger.github.io/blog/smugglefuzz/fuzzing/smugglin
 
 # Install
 
+Download a copy from the Releases page: [https://github.com/Moopinger/smugglefuzz/releases](https://github.com/Moopinger/smugglefuzz/releases)
+
+# Or (Build yourself):
+
 ```
 go install github.com/moopinger/smugglefuzz@latest
 ```
 
 
-Or:
+Another:
 
 
 ```
