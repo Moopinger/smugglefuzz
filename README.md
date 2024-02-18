@@ -15,7 +15,7 @@ For more info see [https://moopinger.github.io/blog/smugglefuzz/fuzzing/smugglin
 
 Download a copy from the releases page: [https://github.com/Moopinger/smugglefuzz/releases](https://github.com/Moopinger/smugglefuzz/releases)
 
-# Or (Build yourself):
+# Or, build it yourself:
 
 ```
 go install github.com/moopinger/smugglefuzz@latest
