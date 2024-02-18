@@ -23,7 +23,7 @@ func OutputParser(name string, response string, colourDisable bool, filter strin
 		return "ERROR: Bad response argument passed"
 	}
 
-	if colourDisable == true {
+	if colourDisable {
 		return fmt.Sprintf("%-30s [%s]%s", name, response, filterReturn) //no colour
 	}
 

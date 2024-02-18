@@ -43,7 +43,7 @@ func NewTarget(url string) (*Target, error) {
 	u, err := neturl.Parse(url)
 
 	if u.Scheme != "https" {
-		return nil, fmt.Errorf("H2C not implemented. If needed see the \"experimental-h2c\" branch.")
+		return nil, fmt.Errorf("H2C not implemented. If needed see the \"experimental-h2c\" branch")
 	}
 
 	if u.Port() == "" {
@@ -85,7 +85,7 @@ func (t *Target) GetConnection() (*tls.Conn, error) {
 	//if the protocol is not h2, we return an error
 
 	if conn.ConnectionState().NegotiatedProtocol != "h2" {
-		return conn, fmt.Errorf("HTTP/2 is not supported by the server. ALPN.")
+		return conn, fmt.Errorf("HTTP/2 is not supported by the server. ALPN")
 	}
 
 	return conn, nil

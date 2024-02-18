@@ -81,10 +81,6 @@ func BulkImportPayloads(payloadsFromFile []string, hostname string) ([]Payload, 
 	return payloads, nil
 }
 
-func processValue(value string) []byte {
-	return []byte(value)
-}
-
 func NewPayload(headerName string, headerValue string, name string) Payload {
 
 	// match and replace

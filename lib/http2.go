@@ -43,7 +43,7 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	if additionalHeader != "" {
 		//check if additional headers contains string patters: ": " if not we return
 		if !strings.Contains(additionalHeader, ": ") {
-			return nil, fmt.Errorf("Additional header does not contain a colon and space")
+			return nil, fmt.Errorf("additional header does not contain a colon and space")
 		}
 
 		//split the header-name and header-value via the colon and space
@@ -71,8 +71,6 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 		withholdUserAgent = true
 	}
 
-	//fmt.Printf("ccccccccHeader Name: %s \nHeader Value: %s\n\n", customHeaderName, custonHeaderValue)
-
 	header := []byte{
 		0x00, 0x00, 0x00, // Length: will be set later
 		0x01,                       // Type: HEADERS
@@ -84,23 +82,23 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	payload := []byte{}
 
 	//if withholdscheme is false we add the scheme with 0x87
-	if withholdScheme == false {
+	if !withholdScheme {
 		payload = append(payload, 0x87)
 	}
 
 	//if withholdAuthority is false we add the authority with 0x41 and the hostname length followed by the hostname
-	if withholdAuthority == false {
+	if !withholdAuthority {
 
 		payload = append(payload, 0x41, byte(len(hostname)))
 		payload = append(payload, hostname...)
 	}
 
-	if withholdMethod == false {
+	if !withholdMethod {
 		methodHeader := append([]byte{0x42, byte(len(requestMethod))}, []byte(requestMethod)...) // 0x04 is the index for :path 0x40 for incremental indexing
 		payload = append(payload, []byte(methodHeader)...)
 	}
 
-	if withholdPath == false {
+	if !withholdPath {
 
 		pathHeader := append([]byte{0x44, byte(len(path))}, path...) // 0x04 is the index for :path 0x40 for incremental indexing
 		payload = append(payload, pathHeader...)
@@ -134,7 +132,7 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	}
 
 	//user agent
-	if withholdUserAgent == false {
+	if !withholdUserAgent {
 
 		userAgentHeader := []byte{
 			0x40,                    // Literal Header Field with Incremental Indexing
@@ -173,16 +171,10 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 	//create a data frame with the same stream id and the END_STREAM flag set
 	//333 will be the smuggled TE value hopefully causing a timeout
 	//If its a confirmation request we modify the body to 3\r\nABC\r\n0\r\n\r\n
-	var dataFrame []byte
+	//var dataFrame []byte
+	dataFrame := generateDataFrame(streamId, customDataFrame)
 
-	// if confirmationRequest == true {
-	// 	dataFrame = generateDataFrame(streamId, "3\r\nABC\r\n0\r\n\r\n")
-	// } else {
-	// 	dataFrame = generateDataFrame(streamId, "99\r\n")
-	// }
-
-	dataFrame = generateDataFrame(streamId, customDataFrame)
-
+	//append the data frame to the header
 	header = append(header, dataFrame...)
 	return header, nil
 
@@ -311,7 +303,7 @@ func HandleConnection(scanJob *ScanJob, streamChan *chan string) {
 func SendCustomFrame(frame []byte, conn *tls.Conn) error {
 
 	if conn == nil {
-		return fmt.Errorf("Connection is nil")
+		return fmt.Errorf("connection is nil")
 	}
 
 	_, err := conn.Write(frame)
@@ -324,7 +316,7 @@ func SendCustomFrame(frame []byte, conn *tls.Conn) error {
 func sendMagicReq(conn *tls.Conn) error {
 
 	if conn == nil {
-		return fmt.Errorf("Connection is nil")
+		return fmt.Errorf("connection is nil")
 	}
 
 	_, err := conn.Write([]byte("PRI * HTTP/2.0\r\n\r\nSM\r\n\r\n"))
