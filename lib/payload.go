@@ -89,6 +89,10 @@ func NewPayload(headerName string, headerValue string, name string) Payload {
 	headerName = strings.ReplaceAll(headerName, "\\n", "\n")
 	headerName = strings.ReplaceAll(headerName, "\\t", "\t")
 
+	headerValue = strings.ReplaceAll(headerValue, "\\r", "\r")
+	headerValue = strings.ReplaceAll(headerValue, "\\n", "\n")
+	headerValue = strings.ReplaceAll(headerValue, "\\t", "\t")
+
 	// Replace URL encoded values (%20) in the string, and replace with actual byte (0x20)
 	headerName, _ = url.PathUnescape(headerName)
 	headerValue, _ = url.PathUnescape(headerValue)
