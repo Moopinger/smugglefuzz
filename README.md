@@ -114,8 +114,7 @@ The tool includes a ready-to-use list of 125 smuggling gadgets, though there's a
 
 Need h2c support? Check out the "experimental-h2c" branch of SmuggleFuzz.
 
-### Pseudo headers
-
+# Pseudo headers
 
 Pseudo headers are fully supported and can be customized using the ":name" syntax:
 
