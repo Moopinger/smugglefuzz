@@ -57,7 +57,7 @@ func ImportSinglePayloads(payloadString string) (Payload, error) {
 	return NewPayload(parts[0], parts[1], payloadString), nil
 }
 
-func BulkImportPayloads(payloadsFromFile []string) ([]Payload, error) {
+func BulkImportPayloads(payloadsFromFile []string, hostname string) ([]Payload, error) {
 
 	payloads := []Payload{}
 
@@ -65,6 +65,9 @@ func BulkImportPayloads(payloadsFromFile []string) ([]Payload, error) {
 		if line == "" {
 			continue
 		}
+
+		//replace [HOSTNAME] with the actual hostname
+		line = strings.ReplaceAll(line, "[HOSTNAME]", hostname)
 
 		parts := strings.Split(line, "; ")
 

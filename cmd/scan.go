@@ -117,7 +117,7 @@ var scanCmd = &cobra.Command{
 				return
 			}
 
-			payloads, err := lib.BulkImportPayloads(headerValues)
+			payloads, err := lib.BulkImportPayloads(headerValues, target.URL.Hostname())
 
 			if err != nil {
 				fmt.Println("Error importing payloads:", err)
