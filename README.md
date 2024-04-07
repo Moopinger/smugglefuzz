@@ -16,9 +16,6 @@ For more info see [https://moopinger.github.io/blog/smugglefuzz/fuzzing/smugglin
 
 # Install
 
-
-For this one you will have to compile yourself:
-
 ```
 git clone https://github.com/moopinger/smugglefuzz.git -b experimental-h2c
 cd smugglefuzz
