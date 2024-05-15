@@ -15,6 +15,10 @@ const (
 	// default gadgetList
 	DefaultGadgetList = `validheader; smugglefuzz
 CONTENT-LENGTH; 13
+content-lengt%68; 13
+content-length; %313
+transfer-encofing; chunke%64
+transfer-encofing; chunked, chunked
 TRANSFER-ENCODING; CHUNKED
 content-length; 13
 content-length; %20%20%20%2013
