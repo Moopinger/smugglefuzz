@@ -218,7 +218,7 @@ func HandleConnection(scanJob *ScanJob, streamChan *chan string) {
 
 	framer := http2.NewFramer(scanJob.Conn, scanJob.Conn)
 	hpackstatus := ""
-
+	hpackBody := ""
 	hpackDecoder := hpack.NewDecoder(4096, func(hf hpack.HeaderField) {
 		if hf.Name == ":status" {
 			hpackstatus = hf.Value
@@ -291,14 +291,30 @@ func HandleConnection(scanJob *ScanJob, streamChan *chan string) {
 			size := len(frame.(*http2.DataFrame).Data())
 			streamContentCount[streamId] += size
 
+			hpackBody += string(frame.(*http2.DataFrame).Data())
+
 			//check if END_STREAM flag is set
 			if frame.(*http2.DataFrame).Flags == 0x1 {
 
 				if streamId == scanJob.StreamId {
 
-					*streamChan <- "SUCCESS [" + hpackstatus + "] Length: " + fmt.Sprintf("%d", streamContentCount[streamId])
+					if scanJob.Keyword != "" {
+						if strings.Contains(hpackBody, scanJob.Keyword) {
+							*streamChan <- "SUCCESS [" + hpackstatus + "] - Keyword: True - Length: " + fmt.Sprintf("%d", streamContentCount[streamId])
+
+						} else {
+							*streamChan <- "SUCCESS [" + hpackstatus + "] - Keyword: False - Length: " + fmt.Sprintf("%d", streamContentCount[streamId])
+						}
+
+					} else {
+
+						*streamChan <- "SUCCESS [" + hpackstatus + "] Length: " + fmt.Sprintf("%d", streamContentCount[streamId])
+
+					}
 
 				}
+
+				hpackBody = ""
 
 			}
 

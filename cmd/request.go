@@ -45,6 +45,7 @@ var requestCmd = &cobra.Command{
 		method, _ := cmd.Flags().GetString("method")
 		singleTarget, _ := cmd.Flags().GetString("url")
 		attackHeader, _ := cmd.Flags().GetString("attack")
+		keyword, _ := cmd.Flags().GetString("keyword")
 
 		detectionTimout, _ := cmd.Flags().GetInt("interval")
 		colorDisabled, _ := cmd.Flags().GetBool("dc")
@@ -86,7 +87,7 @@ var requestCmd = &cobra.Command{
 			return
 		}
 
-		scanJob = *lib.NewScanJob(target, connection, []lib.Payload{attackHeaderPayload})
+		scanJob = *lib.NewScanJob(target, connection, []lib.Payload{attackHeaderPayload}, keyword)
 
 		fmt.Printf("[+]Starting Response Handler for: %s\n", target.URL.Hostname())
 
@@ -141,6 +142,7 @@ func init() {
 	requestCmd.Flags().StringP("data", "d", "99\r\n", "HTTP/2 Data frame content to send.")
 	requestCmd.Flags().BoolP("dc", "", false, "Disable colour in the output.")
 	requestCmd.Flags().StringP("method", "x", "POST", "The method to use.")
+	requestCmd.Flags().StringP("keyword", "k", "", "Check if keyword is in response body.")
 	requestCmd.Flags().StringP("header", "H", "", "Insert custom header. eg \"Cookie: values\"")
 	requestCmd.Flags().IntP("interval", "i", 5, "Detection timeout interval in seconds.")
 	requestCmd.Flags().StringP("attack", "a", "", "Attack Header, separated by (; ) like the wordlist in 'scan' mode.")

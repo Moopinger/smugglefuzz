@@ -54,6 +54,7 @@ var scanCmd = &cobra.Command{
 		detectionTimout, _ := cmd.Flags().GetInt("interval")
 		colorDisabled, _ := cmd.Flags().GetBool("dc")
 		stringFilter, _ := cmd.Flags().GetString("filter")
+		keyword, _ := cmd.Flags().GetString("keyword")
 		additionalHeader, _ := cmd.Flags().GetString("header")
 		userDataFrame, _ := cmd.Flags().GetString("data")
 
@@ -164,7 +165,7 @@ var scanCmd = &cobra.Command{
 					fmt.Println("Error establishing HTTP2 connection:", err)
 					continue
 				}
-				scanJob := lib.NewScanJob(target, conn, payloadChunk)
+				scanJob := lib.NewScanJob(target, conn, payloadChunk, keyword)
 				scanJobs = append(scanJobs, *scanJob)
 			}
 
@@ -346,4 +347,5 @@ func init() {
 	scanCmd.Flags().StringP("filter", "", "", "Filter responses by string or frame type, etc. For example: 405, 200, 502, TIMEOUT, RST, GOAWAY, etc.")
 	scanCmd.Flags().StringP("data", "d", "99\r\n", "HTTP/2 Data frame to send. eg: 99\\r\\n")
 	scanCmd.Flags().BoolP("extended", "e", false, "Use the extended wordlist. Includes more characters. (By default, when no wordlist is provided the shorter wordlist is used)")
+	scanCmd.Flags().StringP("keyword", "k", "", "Keyword detection, return true if a keyword is found in the response. eg: \"Internal Server Error\"")
 }

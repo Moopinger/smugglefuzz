@@ -13,14 +13,16 @@ type ScanJob struct {
 	Conn     *tls.Conn
 	Payloads []Payload
 	StreamId uint32
+	Keyword  string
 }
 
-func NewScanJob(target *Target, conn *tls.Conn, payloads []Payload) *ScanJob {
+func NewScanJob(target *Target, conn *tls.Conn, payloads []Payload, keyword string) *ScanJob {
 	return &ScanJob{
 		Target:   target,
 		Conn:     conn,
 		Payloads: payloads,
 		StreamId: 1,
+		Keyword:  keyword,
 	}
 }
 
