@@ -17,16 +17,16 @@ import (
 var scanCmd = &cobra.Command{
 	Use:   "scan",
 	Short: "Run a scan using multiple different gadgets.",
-	Long:  `Scan for downgrade attacks. Use the default provided wordlist(gadgetlist) or your own.`,
-	Example: `	smugglefuzz scan -u https://example.com/ --confirm 
-	smugglefuzz scan -u https://example.com/ --filter 200 --confirm
+	Long:  `Scan for downgrade attacks. Use the default provided wordlist(gadgetlist) or the extended wordlist (-e) for a more in-depth scan. or your own(-w).`,
+	Example: `	smugglefuzz scan -u https://example.com/ --confirm  --extended
+	smugglefuzz scan -u https://example.com/ --filter 200 --confirm --extended
 	smugglefuzz scan -u https://example.com/ -w wordlist.txt -t 10 --confirm
 	smugglefuzz scan --dc -u https://example.com/ -w wordlist.txt -x PUT --confirm
 	
 	//Multiple targets? just use -f instead of -u and provide a file with the targets in it:
 	
-	smugglefuzz scan -f multiple_targets.txt --confirm -t 10
-	smugglefuzz scan -f multiple_targets.txt -w wordlist.txt --confirm -s ./save-success.txt 
+	smugglefuzz scan -f multiple_targets.txt --confirm -t 10 -e
+	smugglefuzz scan -f multiple_targets.txt -w wordlist.txt --confirm -s ./save-success.txt  -e
 	smugglefuzz scan -f multiple_targets.txt -w wordlist.txt -H "Cookie: date=...; session=...;" --confirm -s ./save-success.txt -x PUT`,
 
 	Run: func(cmd *cobra.Command, args []string) {
@@ -47,6 +47,7 @@ var scanCmd = &cobra.Command{
 		targetFile, _ := cmd.Flags().GetString("file")
 		singleTarget, _ := cmd.Flags().GetString("url")
 		gadgetList, _ := cmd.Flags().GetString("wordlist")
+		extendedListEnabled, _ := cmd.Flags().GetBool("extended")
 		saveSuccessfulRequests, _ := cmd.Flags().GetString("save-success")
 		enableConfirmation, _ := cmd.Flags().GetBool("confirm")
 		routineCount, _ := cmd.Flags().GetInt("threads")
@@ -117,6 +118,9 @@ var scanCmd = &cobra.Command{
 				if headerValues[len(headerValues)-1] == "" {
 					headerValues = headerValues[:len(headerValues)-1]
 				}
+
+			} else if extendedListEnabled {
+				headerValues = strings.Split(lib.ExtendedGadgetList, "\n")
 
 			} else {
 				headerValues = strings.Split(lib.DefaultGadgetList, "\n")
@@ -192,7 +196,7 @@ var scanCmd = &cobra.Command{
 						}
 
 						//I REALLY need to make a builder for these
-						getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, additionalHeader, userDataFrame)
+						getRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), targetUrl, payload.HeaderName, payload.HeaderValue, scanJob.StreamId, method, additionalHeader, userDataFrame)
 						if err != nil {
 							fmt.Println("Error generating request:", err)
 
@@ -264,7 +268,7 @@ var scanCmd = &cobra.Command{
 
 								//send a confirmation frame
 								fmt.Print(lib.OutputParser(payload.Name, "*Sending a confirmation request... ", colorDisabled, stringFilter))
-								confirmationRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), scanJob.Target.URL.Path, payload.HeaderName, payload.HeaderValue, byte(scanJob.StreamId), method, additionalHeader, "3\r\nABC\r\n0\r\n\r\n")
+								confirmationRequest, err := lib.GenerateRequest(scanJob.Target.URL.Hostname(), scanJob.Target.URL.Path, payload.HeaderName, payload.HeaderValue, scanJob.StreamId, method, additionalHeader, "3\r\nABC\r\n0\r\n\r\n")
 
 								if err != nil {
 									fmt.Println("Error generating request:", err)
@@ -341,4 +345,5 @@ func init() {
 	scanCmd.Flags().IntP("interval", "i", 5, "The timeout interval in seconds.")
 	scanCmd.Flags().StringP("filter", "", "", "Filter responses by string or frame type, etc. For example: 405, 200, 502, TIMEOUT, RST, GOAWAY, etc.")
 	scanCmd.Flags().StringP("data", "d", "99\r\n", "HTTP/2 Data frame to send. eg: 99\\r\\n")
+	scanCmd.Flags().BoolP("extended", "e", false, "Use the extended wordlist. Includes more characters. (By default, when no wordlist is provided the shorter wordlist is used)")
 }

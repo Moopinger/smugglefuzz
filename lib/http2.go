@@ -34,7 +34,7 @@ func generateSettingsFrame() []byte {
 
 }
 
-func GenerateRequest(hostname string, path string, customHeaderName []byte, custonHeaderValue []byte, streamId byte, requestMethod string, additionalHeader string, customDataFrame string) ([]byte, error) {
+func GenerateRequest(hostname string, path string, customHeaderName []byte, custonHeaderValue []byte, streamId uint32, requestMethod string, additionalHeader string, customDataFrame string) ([]byte, error) {
 
 	//convert customHeaderName to string
 	additionalHeaderName := []byte{}
@@ -73,10 +73,16 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 
 	header := []byte{
 		0x00, 0x00, 0x00, // Length: will be set later
-		0x01,                       // Type: HEADERS
-		0x04,                       // Flags: END_HEADERS
-		0x00, 0x00, 0x00, streamId, // Stream identifier: 1
+		0x01,                   // Type: HEADERS
+		0x04,                   // Flags: END_HEADERS
+		0x00, 0x00, 0x00, 0x00, // Stream identifier: 1
 	}
+
+	// Set the stream identifier
+	header[5] = byte(streamId >> 24)
+	header[6] = byte(streamId >> 16)
+	header[7] = byte(streamId >> 8)
+	header[8] = byte(streamId)
 
 	//add the pseudo headers
 	payload := []byte{}
@@ -180,14 +186,20 @@ func GenerateRequest(hostname string, path string, customHeaderName []byte, cust
 
 }
 
-func generateDataFrame(streamId byte, data string) []byte {
+func generateDataFrame(streamId uint32, data string) []byte {
 
 	header := []byte{
 		0x00, 0x00, 0x00, // Length: will be set later
-		0x00,                       // Type: DATA
-		0x01,                       // Flags: END_STREAM
-		0x00, 0x00, 0x00, streamId, // Stream identifier: 1
+		0x00,                   // Type: DATA
+		0x01,                   // Flags: END_STREAM
+		0x00, 0x00, 0x00, 0x00, // Stream id will be set later
 	}
+
+	// Set the stream identifier
+	header[5] = byte(streamId >> 24)
+	header[6] = byte(streamId >> 16)
+	header[7] = byte(streamId >> 8)
+	header[8] = byte(streamId)
 
 	//convert the string to a byte array
 	payload := []byte(data)
@@ -214,7 +226,7 @@ func HandleConnection(scanJob *ScanJob, streamChan *chan string) {
 	})
 
 	//create a map to store the stream ids and the corresponding data frame size
-	streamContentCount := make(map[int]int)
+	streamContentCount := make(map[uint32]int)
 
 	for scanJob.Conn != nil {
 
@@ -230,7 +242,7 @@ func HandleConnection(scanJob *ScanJob, streamChan *chan string) {
 			return
 		}
 
-		streamId := int(frame.Header().StreamID)
+		streamId := uint32(frame.Header().StreamID)
 
 		switch frame.(type) {
 		case *http2.HeadersFrame:
@@ -356,13 +368,19 @@ func EstablishH2Connection(conn *tls.Conn) error {
 
 }
 
-func generateWindowUpdateFrame(streamId byte) []byte {
+func generateWindowUpdateFrame(streamId uint32) []byte {
 	header := []byte{
 		0x00, 0x00, 0x04, // Length: 4 bytes
-		0x08,                       // Type: WINDOW_UPDATE
-		0x00,                       // Flags: NO_FLAGS
-		0x00, 0x00, 0x00, streamId, // Stream identifier: streamId
+		0x08,                   // Type: WINDOW_UPDATE
+		0x00,                   // Flags: NO_FLAGS
+		0x00, 0x00, 0x00, 0x00, // Stream identifier: streamId
 	}
+
+	// Set the stream identifier
+	header[5] = byte(streamId >> 24)
+	header[6] = byte(streamId >> 16)
+	header[7] = byte(streamId >> 8)
+	header[8] = byte(streamId)
 
 	payload := []byte{
 		0x7F, 0x0F, 0xFF, 0xFF, // Window Size Increment: 32767

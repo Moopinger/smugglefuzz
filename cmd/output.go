@@ -13,14 +13,24 @@ import (
 // outputCmd represents the output command
 var outputCmd = &cobra.Command{
 	Use:   "output",
-	Short: "Output the default smuggle gadgets",
+	Short: "Output the default smuggle gadgets. By default, the list is not exhaustive. Use the -e flag to see the extended list.",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("%v\n", lib.DefaultGadgetList)
+
+		extended, _ := cmd.Flags().GetBool("extended")
+
+		if extended {
+			fmt.Printf("%v\n", lib.ExtendedGadgetList)
+		} else {
+			fmt.Printf("%v\n", lib.DefaultGadgetList)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(outputCmd)
+
+	// Here you will define your flags and configuration settings.
+	outputCmd.Flags().BoolP("extended", "e", false, "Use the extended provided wordlist.")
 
 }

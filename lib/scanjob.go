@@ -12,7 +12,7 @@ type ScanJob struct {
 	Target   *Target
 	Conn     *tls.Conn
 	Payloads []Payload
-	StreamId int
+	StreamId uint32
 }
 
 func NewScanJob(target *Target, conn *tls.Conn, payloads []Payload) *ScanJob {
